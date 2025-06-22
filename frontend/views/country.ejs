@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Country Details</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/country.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+</head>
+<body>
+
+  <!-- Header Partial -->
+  <%- include('partials/header') %>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <h1 id="countryName"><%= name %></h1>
+      <img id="countryFlag" src="<%= flag %>" alt="Flag" class="flag" />
+      <p id="quickFacts"><strong>Capital:</strong> <%= capital %> • <strong>Region:</strong> <%= region %> - <%= subregion %> • <strong>Population:</strong> <%= population.toLocaleString() %></p>
+      <p id="quickFacts"><strong>Languages:</strong> <%= languages.join(", ") %></p>
+      <p id="quickFacts"><strong>Currencies:</strong> <%= currencies.join(", ") %></p>
+      <p id="quickFacts"><strong>UN Member:</strong> <%= un_member ? "Yes" : "No" %></p>
+    </section>
+
+    <!-- Static Map -->
+    <!-- <section class="map-section">
+      <h2>Political Map</h2>
+      <img id="politicalMap" class="static-map" src="/images/maps/default.jpg" alt="Political Map" />
+    </section> -->
+
+    <!-- Dynamic Map -->
+    <section class="map-section">
+      <h2>Interactive Map</h2>
+      <div id="dynamicMap"></div>
+    </section>
+
+    <!-- External Map Links -->
+    <section class="map-links">
+      <h3>View on External Maps</h3>
+      <div id="mapLinks"></div>
+    </section>
+
+    <!-- Information Cards -->
+    <section class="info-grid">
+      <div class="info-card">
+        <h3>Climate</h3>
+        <p id="climateInfo">Loading...</p>
+      </div>
+      <div class="info-card">
+        <h3>Population</h3>
+        <p id="popInfo"><%= population.toLocaleString() %></p>
+      </div>
+      <div class="info-card">
+        <h3>Wildlife</h3>
+        <p id="wildlifeInfo">Loading...</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer Partial -->
+  <%- include('partials/footer') %>
+
+  <!-- Scripts -->
+<script
+  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+<script>
+  lat = <%= coordinates.lat %>;
+  lon = <%= coordinates.lon %>;
+  const countryName = "<%= name %>";
+
+  const map = L.map('dynamicMap').setView([lat, lon], 5);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors',
+  }).addTo(map);
+
+  L.marker([lat, lon]).addTo(map)
+    .bindPopup(`You are viewing: ${countryName}`)
+    .openPopup();
+</script>
+</body>
+</html>

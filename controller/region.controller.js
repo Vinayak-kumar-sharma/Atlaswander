@@ -11,12 +11,18 @@ export const getRegionInfo = async(req,res)=>{
       const totalArea = countries.reduce((sum, c) => sum + (c.area || 0), 0);
       const avgLat = coords.reduce((sum, [lat]) => sum + lat, 0) / coords.length;
       const avgLon = coords.reduce((sum, [, lon]) => sum + lon, 0) / coords.length;
-res.json({
+// res.json({
+//       region,
+//       center: { lat: avgLat, lon: avgLon },
+//       area_km2: totalArea.toFixed(0),
+//       countries: countries.length
+//     });
+res.render('region',{
       region,
       center: { lat: avgLat, lon: avgLon },
       area_km2: totalArea.toFixed(0),
       countries: countries.length
-    });
+})
   } catch (error) {
       res.status(500).json({ error: error.message });
   }
