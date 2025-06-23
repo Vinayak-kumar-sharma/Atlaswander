@@ -2,202 +2,409 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Country Details</title>
+  <title><%= name %> – Country Details</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/css/country.css" />
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/style.css" /> <!-- your base/global style -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background-color: #f9fafb;
+      color: #1e293b;
+    }
+    .hero {
+      background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+      color: white;
+      padding: 3rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .hero img.flag {
+      width: 120px;
+      height: auto;
+      margin-top: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .hero .facts {
+      margin-top: 1.5rem;
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+    .map-section, .map-links, .info-grid {
+      margin: 3rem auto;
+      max-width: 1000px;
+      padding: 0 1rem;
+    }
+
+    #dynamicMap {
+      height: 400px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .map-links ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .map-links a {
+      background-color: #eff6ff;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      color: #1e40af;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .map-links a:hover {
+      background-color: #dbeafe;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .info-card {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+    .info-card h3 {
+      margin-top: 0;
+      color: #0f172a;
+    }
+
+    .climate-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    .climate-table th, .climate-table td {
+      padding: 0.5rem;
+      border: 1px solid #e2e8f0;
+      text-align: center;
+    }
+    .climate-table th {
+      background-color: #f1f5f9;
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 1.8rem; }
+      .climate-table th, .climate-table td {
+        font-size: 0.8rem;
+      }
+    }
+    /* Sections */
+section {
+  margin: 3rem auto;
+  max-width: 1000px;
+  padding: 0 1rem;
+}
+
+/* Climate */
+.climate-summary {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1.5rem;
+}
+.climate-summary div {
+  background-color: #e0f2fe;
+  padding: 1rem;
+  border-radius: 10px;
+  text-align: center;
+  min-width: 120px;
+}
+.climate-table-container {
+  overflow-x: auto;
+}
+.climate-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+.climate-table th, .climate-table td {
+  padding: 0.5rem;
+  border: 1px solid #e5e7eb;
+  text-align: center;
+}
+.climate-table th {
+  background-color: #f1f5f9;
+}
+
+/* Population */
+.population-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+.stat-card {
+  flex: 1;
+  background-color: #fef3c7;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  text-align: center;
+}
+
+/* Wildlife */
+.wildlife-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+.wildlife-card {
+  background: #f0fdf4;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.wildlife-card img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 0.5rem;
+}
+.wildlife-card h4 {
+  margin: 0.5rem 0 0.25rem;
+}
+.image-modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  padding-top: 80px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.9);
+}
+
+.image-modal img.modal-content {
+  margin: auto;
+  display: block;
+  max-width: 90%;
+  max-height: 80vh;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(255,255,255,0.3);
+}
+
+.image-modal .close {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  color: white;
+  font-size: 35px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+  </style>
 </head>
 <body>
 
-  <!-- Header Partial -->
+  <!-- Header -->
   <%- include('partials/header') %>
 
-  <main>
-    <!-- Hero -->
-    <section class="hero">
-      <h1 id="countryName"><%= name %></h1>
-      <img id="countryFlag" src="<%= flag %>" alt="Flag" class="flag" />
-      <p id="quickFacts"><strong>Capital:</strong> <%= capital %> • <strong>Region:</strong> <%= region %> - <%= subregion %> • <strong>Population:</strong> <%= population.toLocaleString() %></p>
-      <p id="quickFacts"><strong>Languages:</strong> <%= languages.join(", ") %></p>
-      <p id="quickFacts"><strong>Currencies:</strong> <%= currencies.join(", ") %></p>
-      <p id="quickFacts"><strong>UN Member:</strong> <%= un_member ? "Yes" : "No" %></p>
-    </section>
+  <!-- Hero -->
+  <section class="hero">
+    <h1><%= name %></h1>
+    <img src="<%= flag %>" alt="<%= name %> Flag" class="flag" />
+    <div class="facts">
+      <p><strong>Capital:</strong> <%= capital %></p>
+      <p><strong>Region:</strong> <%= region %> – <%= subregion %></p>
+      <p><strong>Population:</strong> <%= population.toLocaleString() %></p>
+      <p><strong>Languages:</strong> <%= languages.join(", ") %></p>
+      <p><strong>Currencies:</strong> <%= currencies.join(", ") %></p>
+      <p><strong>UN Member:</strong> <%= un_member ? "Yes" : "No" %></p>
+    </div>
+  </section>
 
-    <!-- Static Map -->
-    <!-- <section class="map-section">
-      <h2>Political Map</h2>
-      <img id="politicalMap" class="static-map" src="/images/maps/default.jpg" alt="Political Map" />
-    </section> -->
+  <!-- Map -->
+  <section class="map-section">
+    <h2>🗺 Interactive Map</h2>
+    <div id="dynamicMap"></div>
+  </section>
 
-    <!-- Dynamic Map -->
-    <section class="map-section">
-      <h2>Interactive Map</h2>
-      <div id="dynamicMap"></div>
-    </section>
+  <!-- Map Links -->
+  <section class="map-links">
+    <h3>🔗 Explore on External Maps</h3>
+    <ul id="mapLinks">
+      <li><a href="https://www.google.com/maps/search/<%= name %>" target="_blank">Google Maps</a></li>
+      <li><a href="https://www.openstreetmap.org/search?query=<%= name %>" target="_blank">OpenStreetMap</a></li>
+      <li><a href="https://earth.google.com/web/search/<%= name %>" target="_blank">Google Earth</a></li>
+    </ul>
+  </section>
 
-    <!-- External Map Links -->
-    <section class="map-links">
-      <h3>View on External Maps</h3>
-      <div id="mapLinks"></div>
-    </section>
+  <!-- Info Cards -->
+<section class="climate-section">
+  <h2>🌤 Climate Overview</h2>
+  <div class="climate-summary" id="climateSummary">
+    <!-- JS will fill this -->
+  </div>
+  <div class="climate-table-container" id="climateInfo">
+    Loading climate data...
+  </div>
+</section>
 
-    <!-- Information Cards -->
-    <section class="info-grid">
-      <div class="info-card">
-        <h3>Climate</h3>
-        <p id="climateInfo">Loading...</p>
-      </div>
-      <div class="info-card">
-        <h3>Population</h3>
-        <p id="popInfo"><%= population.toLocaleString() %></p>
-      </div>
-      <div class="info-card">
-        <h3>Wildlife</h3>
-        <p id="wildlifeInfo">Loading...</p>
-      </div>
-    </section>
-  </main>
+<!-- Population Section -->
+<section class="population-section">
+  <h2>👥 Population Snapshot</h2>
+  <div class="population-stats">
+    <div class="stat-card">
+      <h3>Total Population</h3>
+      <p><%= population.toLocaleString() %></p>
+    </div>
+    <!-- Future additions: growth, density, etc. -->
+  </div>
+</section>
 
-  <!-- Footer Partial -->
+<!-- Wildlife Section -->
+<section class="wildlife-section">
+  <h2>🦁 Wildlife</h2>
+  <div class="wildlife-grid" id="wildlifeInfo">
+    Loading wildlife data...
+  </div>
+</section>
+
+
+  <!-- Footer -->
   <%- include('partials/footer') %>
 
   <!-- Scripts -->
-<script
-  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
-</script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const lat = <%= coordinates.lat %>;
+    const lon = <%= coordinates.lon %>;
+    const countryName = "<%= name %>";
+    const countryCode = "<%= countryCode %>";
 
+    const map = L.map('dynamicMap').setView([lat, lon], 5);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors',
+    }).addTo(map);
 
-<!-- <script>
-  lat = <%= coordinates.lat %>;
-  lon = <%= coordinates.lon %>;
-  const countryName = "<%= name %>";
-  const countryCode = "<%= countryCode %>"; 
+    L.marker([lat, lon]).addTo(map)
+      .bindPopup(`📍 ${countryName}`)
+      .openPopup();
+  async function fetchExtraInfo() {
+  try {
+    // --- Climate Data ---
+    const climateRes = await fetch(`/api/climate?country=${encodeURIComponent(countryName)}`);
+    const climateData = await climateRes.json();
+    const climate = climateData.climate;
+    const climateInfo = document.getElementById("climateInfo");
+    const climateSummary = document.getElementById("climateSummary");
 
-  const map = L.map('dynamicMap').setView([lat, lon], 5);
+    if (climate?.time?.length) {
+      const avgMax = (climate.temperature_2m_max.reduce((a, b) => a + b, 0) / climate.temperature_2m_max.length).toFixed(1);
+      const avgMin = (climate.temperature_2m_min.reduce((a, b) => a + b, 0) / climate.temperature_2m_min.length).toFixed(1);
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors',
-  }).addTo(map);
-
-  L.marker([lat, lon]).addTo(map)
-    .bindPopup(`You are viewing: ${countryName}`)
-    .openPopup();
-    async function fetchExtraInfo() {
-    try {
-      // Climate info by country name
-      const climateRes = await fetch(`/api/climate?country=${encodeURIComponent(countryName)}`);
-      const climate = await climateRes.json();
-
-      // Wildlife info by country code
-      const wildlifeRes = await fetch(`/api/wildlife?countryCode=${encodeURIComponent(countryCode)}`);
-      const wildlife = await wildlifeRes.json();
-
-      // Inject into DOM or console
-      console.log("Climate Info:", climate);
-      console.log("Wildlife Info:", wildlife);
-
-      // Optional: Display in existing placeholders
-      document.getElementById("climateInfo").textContent = climate.summary || "No climate data.";
-      document.getElementById("wildlifeInfo").innerHTML = `
-        <strong>Animals:</strong> ${wildlife.animals?.join(', ') || "N/A"}<br>
-        <strong>Plants:</strong> ${wildlife.plants?.join(', ') || "N/A"}
+      climateSummary.innerHTML = `
+        <div><h4>Avg Max</h4><p>${avgMax} °C</p></div>
+        <div><h4>Avg Min</h4><p>${avgMin} °C</p></div>
+        <div><h4>Data Points</h4><p>${climate.time.length}</p></div>
       `;
 
-    } catch (error) {
-      console.error("Error fetching climate or wildlife data:", error);
+      let table = `<table class="climate-table"><thead><tr><th>Date</th><th>Max (°C)</th><th>Min (°C)</th></tr></thead><tbody>`;
+      for (let i = 0; i < climate.time.length; i++) {
+        table += `<tr><td>${climate.time[i]}</td><td>${climate.temperature_2m_max[i]}</td><td>${climate.temperature_2m_min[i]}</td></tr>`;
+      }
+      table += "</tbody></table>";
+      climateInfo.innerHTML = table;
+    } else {
+      climateInfo.textContent = "No climate data available.";
     }
-  }
 
-  fetchExtraInfo();
-</script> -->
-
-<script>
-  const lat = <%= coordinates.lat %>;
-  const lon = <%= coordinates.lon %>;
-  const countryName = "<%= name %>";
-  const countryCode = "<%= countryCode %>"; 
-
-  // Initialize the map
-  const map = L.map('dynamicMap').setView([lat, lon], 5);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors',
-  }).addTo(map);
-
-  // Add marker
-  L.marker([lat, lon]).addTo(map)
-    .bindPopup(`You are viewing: ${countryName}`)
-    .openPopup();
-
-  // Load dynamic data
-  async function fetchExtraInfo() {
-    try {
-      // --- Fetch climate data ---
-// --- Fetch climate data ---
-const climateRes = await fetch(`/api/climate?country=${encodeURIComponent(countryName)}`);
-const climateData = await climateRes.json();
-const climate = climateData.climate;
-
-const climateContainer = document.getElementById("climateInfo");
-climateContainer.innerHTML = ""; 
-
-if (climate && climate.time && climate.time.length) {
-  let table = `<table class="climate-table">
-    <thead>
-      <tr><th>Date</th><th>Max Temp (°C)</th><th>Min Temp (°C)</th></tr>
-    </thead>
-    <tbody>
-      ${climate.time.map((date, idx) => `
-        <tr>
-          <td>${date}</td>
-          <td>${climate.temperature_2m_max[idx]}</td>
-          <td>${climate.temperature_2m_min[idx]}</td>
-        </tr>
-      `).join("")}
-    </tbody>
-  </table>`;
-  climateContainer.innerHTML = table;
-} else {
-  climateContainer.textContent = "No climate data available.";
-}
-
-
-// --- Fetch wildlife data ---
+    // --- Wildlife Data ---
 const wildlifeRes = await fetch(`/api/wildlife?countryCode=${encodeURIComponent(countryCode)}`);
 const wildlife = await wildlifeRes.json();
-
 const wildlifeContainer = document.getElementById("wildlifeInfo");
-wildlifeContainer.innerHTML = ""; // Clear existing
+wildlifeContainer.innerHTML = "";
 
-if (wildlife.species && wildlife.species.length) {
-  // Group species
-  const animals = wildlife.species.filter(s => s.kingdom === "Animalia");
-  const plants = wildlife.species.filter(s => s.kingdom === "Plantae");
-
-  if (animals.length) {
-    wildlifeContainer.innerHTML += `<h4>Animals (${animals.length})</h4><ul>
-      ${animals.slice(0, 10).map(a => `<li><strong>${a.species}</strong> (${a.class})</li>`).join("")}
-    </ul>`;
-  }
-
-  if (plants.length) {
-    wildlifeContainer.innerHTML += `<h4>Plants (${plants.length})</h4><ul>
-      ${plants.slice(0, 10).map(p => `<li><strong>${p.species}</strong> (${p.class})</li>`).join("")}
-    </ul>`;
-  }
-} else {
+const species = wildlife.species || [];
+if (!species.length) {
   wildlifeContainer.textContent = "No wildlife data available.";
+  return;
+}
+
+species.slice(0, 12).forEach(item => {
+  const card = document.createElement("div");
+  card.className = "wildlife-card";
+
+  const fullImage = item.image_url || '/images/placeholder.jpg';
+
+  card.innerHTML = `
+    <a href="#" class="wildlife-image-link">
+      <img src="${fullImage}" alt="${item.species}" data-full="${fullImage}" />
+    </a>
+    <div class="wildlife-details">
+      <h4>${item.species}</h4>
+      <p><strong>Scientific Name:</strong> ${item.scientific_name || 'N/A'}</p>
+      <p><strong>Class:</strong> ${item.class || 'N/A'}</p>
+      <p><strong>Order:</strong> ${item.order || 'N/A'}</p>
+      <p><strong>Family:</strong> ${item.family || 'N/A'}</p>
+      <p><strong>Kingdom:</strong> ${item.kingdom || 'N/A'}</p>
+      <p><strong>Region:</strong> ${item.state_province || 'N/A'}</p>
+      <p><strong>Observed:</strong> ${item.date_observed || 'N/A'}</p>
+      <p><strong>Observer:</strong> ${item.recorded_by || 'Unknown'}</p>
+      <p><strong>Institution:</strong> ${item.institution || 'N/A'}</p>
+    </div>
+  `;
+  wildlifeContainer.appendChild(card);
+});
+
+// Now that cards are added, attach modal functionality
+setupImageModal();
+
+
+
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById("climateInfo").textContent = "Error loading climate.";
+    document.getElementById("wildlifeInfo").textContent = "Error loading wildlife.";
+  }
+}
+fetchExtraInfo();
+
+function setupImageModal() {
+  document.querySelectorAll(".wildlife-image-link img").forEach(img => {
+    img.addEventListener("click", function (e) {
+      e.preventDefault();
+      const modal = document.getElementById("imageModal");
+      const modalImg = document.getElementById("modalImg");
+      modal.style.display = "block";
+      modalImg.src = this.dataset.full;
+    });
+  });
+
+  document.querySelector(".image-modal .close").addEventListener("click", () => {
+    document.getElementById("imageModal").style.display = "none";
+  });
 }
 
 
-    } catch (error) {
-      console.error("Error loading data:", error);
-      document.getElementById("climateInfo").textContent = "Failed to load climate.";
-      document.getElementById("wildlifeInfo").textContent = "Failed to load wildlife.";
-    }
-  }
-
-  fetchExtraInfo();
-</script>
-
+  </script>
+  <div id="imageModal" class="image-modal">
+  <span class="close">&times;</span>
+  <img class="modal-content" id="modalImg" />
+</div>
 </body>
 </html>
