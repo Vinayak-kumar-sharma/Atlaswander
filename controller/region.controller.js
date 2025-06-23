@@ -11,6 +11,17 @@ export const getRegionInfo = async(req,res)=>{
       const totalArea = countries.reduce((sum, c) => sum + (c.area || 0), 0);
       const avgLat = coords.reduce((sum, [lat]) => sum + lat, 0) / coords.length;
       const avgLon = coords.reduce((sum, [, lon]) => sum + lon, 0) / coords.length;
+      const totalPop = countries.reduce((sum, c) => sum + (c.population || 0), 0);
+const groupedBySubregion = {};
+
+countries.forEach(c => {
+  const sub = c.subregion || "Unknown";
+  if (!groupedBySubregion[sub]) {
+    groupedBySubregion[sub] = [];
+  }
+  groupedBySubregion[sub].push(c.name.common);
+});
+const formatter = new Intl.NumberFormat('en-US');
 // res.json({
 //       region,
 //       center: { lat: avgLat, lon: avgLon },
@@ -21,7 +32,9 @@ res.render('region',{
       region,
       center: { lat: avgLat, lon: avgLon },
       area_km2: totalArea.toFixed(0),
-      countries: countries.length
+      countries: countries.length,
+      groupedCountries: groupedBySubregion,
+      totalPopulation:  formatter.format(totalPop),
 })
   } catch (error) {
       res.status(500).json({ error: error.message });

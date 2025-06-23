@@ -18,8 +18,21 @@
   <div class="region-summary">
     <p><strong>Total Countries:</strong> <%= countries %></p>
     <p><strong>Total Area:</strong> <%= area_km2 %> km²</p>
+    <p><strong>Total population:</strong> <%= totalPopulation.toLocaleString() %></p>
   </div>
-
+  <h2>Countries by Subregion in <%= region.charAt(0).toUpperCase() + region.slice(1) %>:</h2>
+<% for (let subregion in groupedCountries) { %>
+  <h3><%= subregion %></h3>
+  <ul>
+    <% groupedCountries[subregion].forEach(country => { %>
+      <li>
+        <a href="/api/country/<%= encodeURIComponent(country) %>">
+          <%= country %>
+        </a>
+      </li>
+    <% }) %>
+  </ul>
+<% } %>
   <div id="regionMap" style="height: 400px; margin: 20px 0;"></div>
 </section>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>

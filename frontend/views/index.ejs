@@ -3,134 +3,422 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Atlas Explorer</title>
+  <title>Atlas Wander</title>
   <link rel="stylesheet" href="/css/styles.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <link rel="stylesheet" href="https://leaverou.github.io/awesomplete/awesomplete.css" />
-  <script src="https://leaverou.github.io/awesomplete/awesomplete.min.js"></script>
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --text: #f1f5f9;
+      --accent: #38bdf8;
+      --highlight: #16a34a;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    header, footer {
+      padding: 1rem 2rem;
+      text-align: center;
+      background-color: #1e293b;
+    }
+
+    .hero {
+      height: 60vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(to bottom, #0f172a, #1e293b);
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+    }
+
+    .hero p {
+      max-width: 600px;
+      font-size: 1.2rem;
+      color: #cbd5e1;
+    }
+
+    .search-container {
+      margin-top: 2rem;
+      display: flex;
+      gap: 1rem;
+    }
+
+    .search-container input {
+      padding: 0.7rem 1rem;
+      border-radius: 8px;
+      border: none;
+      width: 300px;
+    }
+
+    .search-container button {
+      background-color: var(--accent);
+      color: white;
+      padding: 0.7rem 1.2rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 3rem 2rem;
+      background-color: #1e293b;
+    }
+
+    .feature-card {
+      background: #0f172a;
+      padding: 2rem;
+      border-radius: 1rem;
+      text-align: center;
+      box-shadow: 0 0 10px #0f172a;
+    }
+
+    .feature-card h3 {
+      color: var(--highlight);
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+.feature-card {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+    .map-preview {
+      height: 40vh;
+      position: relative;
+      overflow: hidden;
+      border-top-left-radius: 40px;
+      border-top-right-radius: 40px;
+    }
+
+    #map {
+  width: 100%;
+  height: 60vh; /* Good default: 60% of the viewport height */
+  min-height: 400px; /* Ensures minimum visibility on small screens */
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+  transition: height 0.3s ease-in-out;
+}
+
+.map-section {
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+    .fade-overlay {
+      position: absolute;
+      top: 0;
+      height: 100px;
+      width: 100%;
+      background: linear-gradient(to bottom, #1e293b, transparent);
+      z-index: 10;
+    }
+    .features-intro {
+  text-align: center;
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.features-intro h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.features-intro p {
+  max-width: 700px;
+  margin: 0 auto;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555;
+}
+  </style>
 </head>
 <body>
-  <%- include('partials/header') %>
+    <%- include('partials/header') %>
 
-  <!-- Hero & Intro Section -->
   <section class="hero">
-    <h1>Welcome to Atlas Explorer</h1>
-    <p>Explore countries, regions, climate, wildlife, and more using our interactive global tools.</p>
+    <h1>Discover the World Differently</h1>
+    <p>Search any country or region to explore its climate, wildlife, and population insights — all on an interactive global map.</p>
     <div class="search-container">
-      <input id="searchInput" class="awesomplete" list="suggestions" placeholder="Search for a country or region..." />
-      <datalist id="suggestions">
-        <option>India</option>
-        <option>Germany</option>
-        <option>Brazil</option>
-        <option>Asia</option>
-        <option>Africa</option>
-        <!-- Add more dynamically as needed -->
-      </datalist>
-      <button id="searchBtn">Search</button>
+      <input id="searchInput" placeholder="🔍 Search for a country or region..." />
+      <button id="searchBtn">Go</button>
     </div>
   </section>
 
-  <!-- Feature Highlights -->
-  <section class="features">
-    <h2>What You Can Discover</h2>
-    <div class="feature-grid">
-      <div class="feature-card">
-        <h3>🌍 Country Info</h3>
-        <p>Population, geography, and national insights.</p>
-      </div>
-      <div class="feature-card">
-        <h3>☁️ Climate</h3>
-        <p>Discover weather patterns and climate data.</p>
-      </div>
-      <div class="feature-card">
-        <h3>🦁 Wildlife</h3>
-        <p>Explore native animals and plant species.</p>
-      </div>
-      <div class="feature-card">
-        <h3>📍 Regions</h3>
-        <p>View continental stats and related countries.</p>
-      </div>
-    </div>
-  </section>
+ <section class="features-intro">
+  <h2>Discover More by Clicking Below</h2>
+  <p>
+    The categories to uncover specific insights about the country you clicked on the map.
+    From weather forecasts to wildlife diversity and population data — each card takes you deeper.
+  </p>
+</section>
 
-  <!-- Interactive Map Section -->
-  <section class="map-section">
-    <h2>Interactive Map</h2>
-    <p>🖱️ Click on any location to explore relevant data by selecting a category.</p>
-    <div class="map-options">
-      <label for="modeSelector">Choose info:</label>
-      <select id="modeSelector">
-        <option value="country">Country Info</option>
-        <option value="climate">Climate</option>
-        <option value="wildlife">Wildlife</option>
-        <option value="population">Population</option>
-      </select>
-    </div>
-    <div id="map" class="map-container"></div>
+<section class="feature-grid">
+  <div class="feature-card" data-type="climate">
+    <h3>🌦 Climate</h3>
+    <p>The weather whispers stories — explore 7-day forecasts and patterns.</p>
+  </div>
+  <div class="feature-card" data-type="wildlife">
+    <h3>🦁 Wildlife</h3>
+    <p>Nature’s residents await: from birds to blooms, discover biodiversity.</p>
+  </div>
+  <div class="feature-card" data-type="population">
+    <h3>📈 Population</h3>
+    <p>Understand the scale of life and culture — demographics at a glance.</p>
+  </div>
+  <div class="feature-card" data-type="map">
+    <h3>🗺 Map Explorer</h3>
+    <p>Click and roam the world — interact with data-rich geographical views.</p>
+  </div>
+</section>
+
+  <section class="map-preview">
+    <div id="map"></div>
+    <div class="fade-overlay"></div>
   </section>
 
   <%- include('partials/footer') %>
 
-  <script>
-    // Search Functionality
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- <script>
+  // Search functionality
+  document.getElementById("searchBtn").addEventListener("click", () => {
+    const query = document.getElementById("searchInput").value.trim();
+    if (!query) return alert("Please enter a name.");
+    const regionList = ["asia", "africa", "europe", "oceania", "americas"];
+    if (regionList.includes(query.toLowerCase())) {
+      window.location.href = `/api/region/${encodeURIComponent(query)}`;
+    } else {
+      window.location.href = `/api/country/${encodeURIComponent(query)}`;
+    }
+  });
+
+  // ✅ SINGLE Leaflet map initialization
+  const map = L.map('map', {
+    center: [20, 0],
+    zoom: 2,
+    scrollWheelZoom: true,
+    zoomControl: true,
+    dragging: true
+  });
+
+
+  // Add tile layer
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+let lastClickedCountry = null; // Start with no country selected
+let activeMarker = null;
+
+// map.on('click', async function (e) {
+  let lat = e.latlng.lat;
+  let lon = e.latlng.lng;
+
+  // 🌍 Normalize coordinates
+  lat = Math.max(-90, Math.min(90, lat)); // Clamp latitude
+  lon = ((lon + 180) % 360 + 360) % 360 - 180; // Normalize longitude to [-180, 180]
+
+  // Optional: round for cleanliness
+  const latRounded = parseFloat(lat.toFixed(4));
+  const lonRounded = parseFloat(lon.toFixed(4));
+
+  // Temporary marker (click feedback)
+  L.marker([latRounded, lonRounded]).addTo(map)
+    .bindPopup(`Location: ${latRounded}, ${lonRounded}`)
+    .openPopup();
+
+  try {
+    const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latRounded}&lon=${lonRounded}`);
+    const data = await response.json();
+    const country = data.address?.country;
+
+    if (country) {
+      lastClickedCountry = country;
+
+      // Remove previous marker
+      if (activeMarker) map.removeLayer(activeMarker);
+
+      // Add new marker with country label
+      activeMarker = L.marker([latRounded, lonRounded]).addTo(map)
+        .bindPopup(`<b>📍 ${country}</b>`)
+        .openPopup();
+    } else {
+      alert("No country found at this location.");
+    }
+    
+  } catch (error) {
+    console.error("Geocoding error:", error);
+    alert("Something went wrong while fetching location data.");
+  }
+});
+
+map.on('click', async function (e) {
+  let lat = e.latlng.lat;
+  let lon = e.latlng.lng;
+
+  // Normalize coords
+  lat = Math.max(-90, Math.min(90, lat));
+  lon = ((lon + 180) % 360 + 360) % 360 - 180;
+  const latRounded = parseFloat(lat.toFixed(4));
+  const lonRounded = parseFloat(lon.toFixed(4));
+
+  try {
+    const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latRounded}&lon=${lonRounded}`);
+    const data = await response.json();
+    const country = data.address?.country;
+
+    if (country) {
+      lastClickedCountry = country;
+
+      // Remove previous marker
+      if (activeMarker) map.removeLayer(activeMarker);
+
+      // Add new marker
+      activeMarker = L.marker([latRounded, lonRounded]).addTo(map)
+        .bindPopup(`<b>📍 ${country}</b>`)
+        .openPopup();
+
+      // 🚀 Redirect to country page
+      window.location.href = `/api/country/${encodeURIComponent(country)}`;
+    } else {
+      alert("No country found at this location.");
+    }
+
+  } catch (error) {
+    console.error("Geocoding error:", error);
+    alert("Something went wrong while fetching location data.");
+  }
+});
+
+
+  // Clickable Feature Cards
+  document.querySelectorAll(".feature-card").forEach(card => {
+    card.addEventListener("click", async () => {
+      const type = card.getAttribute("data-type");
+      const country = lastClickedCountry;
+
+      switch (type) {
+        case "climate":
+          window.location.href = `/api/climate?country=${encodeURIComponent(country)}`;
+          break;
+        case "wildlife":
+          window.location.href = `/api/region?name=${encodeURIComponent(country)}`;
+          break;
+        case "population":
+          try {
+            const restRes = await fetch(`https://restcountries.com/v3.1/name/${country}?fullText=true`);
+            const [info] = await restRes.json();
+            const region = info.region;
+            window.location.href = `/population?region=${encodeURIComponent(region)}`;
+          } catch (err) {
+            console.error("Error fetching population data:", err);
+          }
+          break;
+        case "map":
+          window.location.href = `/api/country/${encodeURIComponent(country)}`;
+          break;
+      }
+    });
+  });
+</script> -->
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+
+    // Search functionality
     document.getElementById("searchBtn").addEventListener("click", () => {
       const query = document.getElementById("searchInput").value.trim();
-      if (!query) return alert("Please enter a country or region name.");
-      if (["asia", "africa", "europe", "oceania", "americas"].includes(query.toLowerCase())) {
-        window.location.href = `/region/${encodeURIComponent(query)}`;
+      if (!query) return alert("Please enter a name.");
+      const regionList = ["asia", "africa", "europe", "oceania", "americas"];
+      if (regionList.includes(query.toLowerCase())) {
+        window.location.href = `/api/region?name=${encodeURIComponent(query)}`;
       } else {
-        window.location.href = `/country/${encodeURIComponent(query)}`;
+        window.location.href = `/api/country/${encodeURIComponent(query)}`;
       }
     });
 
-    // Map Initialization
-    const map = L.map('map').setView([20, 0], 2);
+    // Initialize Leaflet map
+    const map = L.map('map', {
+      center: [20, 0],
+      zoom: 2,
+      scrollWheelZoom: true,
+      zoomControl: true,
+      dragging: true
+    });
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    // Map click logic
+    let lastClickedCountry = null;
+    let activeMarker = null;
+
     map.on('click', async function (e) {
-      const lat = e.latlng.lat;
-      const lon = e.latlng.lng;
-      const mode = document.getElementById("modeSelector").value;
+      let lat = e.latlng.lat;
+      let lon = e.latlng.lng;
+
+      lat = Math.max(-90, Math.min(90, lat));
+      lon = ((lon + 180) % 360 + 360) % 360 - 180;
+
+      const latRounded = parseFloat(lat.toFixed(4));
+      const lonRounded = parseFloat(lon.toFixed(4));
 
       try {
-        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`);
+        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latRounded}&lon=${lonRounded}`);
         const data = await response.json();
-        const country = data.address.country;
+        const country = data.address?.country;
 
-        if (!country) {
-          alert("No country found for this location.");
-          return;
-        }
+        if (country) {
+          lastClickedCountry = country;
 
-        switch (mode) {
-          case "country":
-            window.location.href = `/country/${encodeURIComponent(country)}`;
-            break;
-          case "climate":
-            window.location.href = `/climate?country=${encodeURIComponent(country)}`;
-            break;
-          case "wildlife":
-            window.location.href = `/wildlife?country=${encodeURIComponent(country)}`;
-            break;
-          case "population":
-            const restData = await fetch(`https://restcountries.com/v3.1/name/${country}?fullText=true`);
-            const [countryInfo] = await restData.json();
-            const region = countryInfo.region;
-            window.location.href = `/population?region=${encodeURIComponent(region)}`;
-            break;
-          default:
-            alert("Invalid mode selected.");
+          if (activeMarker) map.removeLayer(activeMarker);
+
+          activeMarker = L.marker([latRounded, lonRounded]).addTo(map)
+            .bindPopup(`<b>📍 ${country}</b>`)
+            .openPopup();
+
+          // Optional: redirect
+          window.location.href = `/api/country/${encodeURIComponent(country)}`;
+        } else {
+          alert("No country found at this location.");
         }
 
       } catch (error) {
-        console.error("Error:", error);
-        alert("Failed to fetch location data.");
+        console.error("Geocoding error:", error);
+        alert("Something went wrong while fetching location data.");
       }
     });
-  </script>
+
+    
+  }); // DOMContentLoaded
+</script>
+
+
 </body>
 </html>

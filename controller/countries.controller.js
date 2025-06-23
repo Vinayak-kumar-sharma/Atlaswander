@@ -29,6 +29,7 @@ export const getCountrywisepopulation = async(req,res)=>{
   borders: data.borders || [],
   timezones: data.timezones || [],
   un_member: data.unMember || false,
+  countryCode: data.cca2 || data.cca3 || "", 
 });
 
   } catch (error) {

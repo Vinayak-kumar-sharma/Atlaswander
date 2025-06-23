@@ -65,10 +65,13 @@
 <script
   src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
 </script>
-<script>
+
+
+<!-- <script>
   lat = <%= coordinates.lat %>;
   lon = <%= coordinates.lon %>;
   const countryName = "<%= name %>";
+  const countryCode = "<%= countryCode %>"; 
 
   const map = L.map('dynamicMap').setView([lat, lon], 5);
 
@@ -79,6 +82,122 @@
   L.marker([lat, lon]).addTo(map)
     .bindPopup(`You are viewing: ${countryName}`)
     .openPopup();
+    async function fetchExtraInfo() {
+    try {
+      // Climate info by country name
+      const climateRes = await fetch(`/api/climate?country=${encodeURIComponent(countryName)}`);
+      const climate = await climateRes.json();
+
+      // Wildlife info by country code
+      const wildlifeRes = await fetch(`/api/wildlife?countryCode=${encodeURIComponent(countryCode)}`);
+      const wildlife = await wildlifeRes.json();
+
+      // Inject into DOM or console
+      console.log("Climate Info:", climate);
+      console.log("Wildlife Info:", wildlife);
+
+      // Optional: Display in existing placeholders
+      document.getElementById("climateInfo").textContent = climate.summary || "No climate data.";
+      document.getElementById("wildlifeInfo").innerHTML = `
+        <strong>Animals:</strong> ${wildlife.animals?.join(', ') || "N/A"}<br>
+        <strong>Plants:</strong> ${wildlife.plants?.join(', ') || "N/A"}
+      `;
+
+    } catch (error) {
+      console.error("Error fetching climate or wildlife data:", error);
+    }
+  }
+
+  fetchExtraInfo();
+</script> -->
+
+<script>
+  const lat = <%= coordinates.lat %>;
+  const lon = <%= coordinates.lon %>;
+  const countryName = "<%= name %>";
+  const countryCode = "<%= countryCode %>"; 
+
+  // Initialize the map
+  const map = L.map('dynamicMap').setView([lat, lon], 5);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors',
+  }).addTo(map);
+
+  // Add marker
+  L.marker([lat, lon]).addTo(map)
+    .bindPopup(`You are viewing: ${countryName}`)
+    .openPopup();
+
+  // Load dynamic data
+  async function fetchExtraInfo() {
+    try {
+      // --- Fetch climate data ---
+// --- Fetch climate data ---
+const climateRes = await fetch(`/api/climate?country=${encodeURIComponent(countryName)}`);
+const climateData = await climateRes.json();
+const climate = climateData.climate;
+
+const climateContainer = document.getElementById("climateInfo");
+climateContainer.innerHTML = ""; 
+
+if (climate && climate.time && climate.time.length) {
+  let table = `<table class="climate-table">
+    <thead>
+      <tr><th>Date</th><th>Max Temp (°C)</th><th>Min Temp (°C)</th></tr>
+    </thead>
+    <tbody>
+      ${climate.time.map((date, idx) => `
+        <tr>
+          <td>${date}</td>
+          <td>${climate.temperature_2m_max[idx]}</td>
+          <td>${climate.temperature_2m_min[idx]}</td>
+        </tr>
+      `).join("")}
+    </tbody>
+  </table>`;
+  climateContainer.innerHTML = table;
+} else {
+  climateContainer.textContent = "No climate data available.";
+}
+
+
+// --- Fetch wildlife data ---
+const wildlifeRes = await fetch(`/api/wildlife?countryCode=${encodeURIComponent(countryCode)}`);
+const wildlife = await wildlifeRes.json();
+
+const wildlifeContainer = document.getElementById("wildlifeInfo");
+wildlifeContainer.innerHTML = ""; // Clear existing
+
+if (wildlife.species && wildlife.species.length) {
+  // Group species
+  const animals = wildlife.species.filter(s => s.kingdom === "Animalia");
+  const plants = wildlife.species.filter(s => s.kingdom === "Plantae");
+
+  if (animals.length) {
+    wildlifeContainer.innerHTML += `<h4>Animals (${animals.length})</h4><ul>
+      ${animals.slice(0, 10).map(a => `<li><strong>${a.species}</strong> (${a.class})</li>`).join("")}
+    </ul>`;
+  }
+
+  if (plants.length) {
+    wildlifeContainer.innerHTML += `<h4>Plants (${plants.length})</h4><ul>
+      ${plants.slice(0, 10).map(p => `<li><strong>${p.species}</strong> (${p.class})</li>`).join("")}
+    </ul>`;
+  }
+} else {
+  wildlifeContainer.textContent = "No wildlife data available.";
+}
+
+
+    } catch (error) {
+      console.error("Error loading data:", error);
+      document.getElementById("climateInfo").textContent = "Failed to load climate.";
+      document.getElementById("wildlifeInfo").textContent = "Failed to load wildlife.";
+    }
+  }
+
+  fetchExtraInfo();
 </script>
+
 </body>
 </html>
