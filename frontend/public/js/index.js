@@ -1,6 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-
-    // Search functionality
     document.getElementById("searchBtn").addEventListener("click", () => {
       const query = document.getElementById("searchInput").value.trim();
       if (!query) return alert("Please enter a name.");
@@ -11,7 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = `/api/country/${encodeURIComponent(query)}`;
       }
     });
-
     // Initialize Leaflet map
     const map = L.map('map', {
       center: [20, 0],

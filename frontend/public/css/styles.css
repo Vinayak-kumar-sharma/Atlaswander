@@ -1,10 +1,23 @@
-
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
   :root {
     --bg: #0f172a;
     --text: #f1f5f9;
     --accent: #38bdf8;
     --highlight: #16a34a;
   }
+.home-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.home-link:hover {
+  text-decoration: underline;
+}
 
   body {
     margin: 0;
@@ -229,3 +242,4 @@
 .feature-grid.map-hover {
   background: linear-gradient(135deg, #ff416c, #ff4b2b);
 }
+

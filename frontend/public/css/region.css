@@ -1,52 +1,134 @@
-.container {
-  max-width: 1200px;
-  margin: auto;
-  padding: 20px;
-}
-
-.region-summary {
-  font-size: 1.1rem;
-  margin-bottom: 20px;
-  color: #555;
-}
-
-.country-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 20px;
-}
-
-.country-card {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  padding: 16px;
+header {
+  padding: 1rem 2rem;
+  background-color: #1e293b;
+  color: #ffffff;
   text-align: center;
-  transition: transform 0.2s ease;
 }
 
-.country-card:hover {
-  transform: translateY(-4px);
+header h1 {
+  font-size: 2rem;
+  margin: 0.5rem 0;
 }
 
-.flag {
-  width: 100%;
-  height: 140px;
-  object-fit: cover;
-  border-radius: 8px;
+header p {
+  font-size: 1rem;
+  margin: 0.25rem 0 1rem;
 }
 
-.details-btn {
-  margin-top: 10px;
-  display: inline-block;
-  padding: 8px 16px;
-  background: #0077cc;
-  color: white;
-  border-radius: 6px;
+.site-brand {
+  margin-top: 1rem;
+}
+
+.home-link {
+  color: #ffffff;
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  background-color: #0f172a;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  display: inline-block;
+  transition: background 0.3s ease;
 }
 
-.details-btn:hover {
-  background: #005fa3;
+.home-link:hover {
+  background-color: #334155;
+  text-decoration: none;
+}
+
+/* === MAIN CONTAINER === */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.container h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #1e293b;
+}
+
+.region-summary p {
+  font-size: 1.1rem;
+  color: #555;
+  margin: 0.25rem 0;
+}
+
+.container h2 {
+  margin-top: 2rem;
+  font-size: 1.5rem;
+}
+
+.container h3 {
+  margin-top: 1.5rem;
+  color: #334155;
+}
+
+.container ul {
+  padding-left: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.container li {
+  margin: 0.5rem 0;
+}
+
+.container a {
+  color: #1d4ed8;
+  text-decoration: none;
+}
+
+.container a:hover {
+  text-decoration: underline;
+}
+
+/* === MAP SECTION === */
+#regionMap {
+  width: 100%;
+  height: 400px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin: 2rem 0;
+}
+
+/* === FOOTER === */
+footer {
+  padding: 1rem 2rem;
+  background-color: #1e293b;
+  color: #ffffff;
+  text-align: center;
+}
+
+/* === RESPONSIVE STYLES === */
+@media (max-width: 600px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  .home-link {
+    font-size: 1rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .container {
+    padding: 1rem;
+  }
+
+  .container h1 {
+    font-size: 1.5rem;
+  }
+
+  .container h2 {
+    font-size: 1.25rem;
+  }
+
+  #regionMap {
+    height: 300px;
+  }
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }

@@ -6,7 +6,7 @@ export const getWildlifeinfo = async (req,res)=>{
     if(!countryCode){
       return res.status(400).json({error:"Country Code required"})
     }
-    const data = await fetchJSON(`https://api.gbif.org/v1/occurrence/search?country=${countryCode}&limit=10`);
+    const data = await fetchJSON(`https://api.gbif.org/v1/occurrence/search?country=${countryCode}&limit=20`);
 
 const species = data.results.map(item => ({
   species: item.species || item.scientificName || "Unknown",

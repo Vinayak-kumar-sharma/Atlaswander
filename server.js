@@ -44,20 +44,6 @@ app.get("/", (req, res) => {
   res.render("index", { title: "Atlas360 – Wander" });
 });
 
-// Example dynamic route to render country page (optional for now)
-// import axios from "axios";
-// app.get("/country/:name", async (req, res) => {
-//   try {
-//     const { name } = req.params;
-//     const { data } = await axios.get(
-//       `http://localhost:${PORT}/api/countries/${name}`
-//     );
-//     res.render("country", { country: data });
-//   } catch (error) {
-//     res.status(404).send("Country not found.");
-//   }
-// });
-
 app.listen(PORT, () => {
   console.log(`Server running: http://localhost:${PORT}`);
 });
