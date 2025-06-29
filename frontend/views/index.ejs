@@ -11,14 +11,44 @@
 
     <%- include('partials/header') %>
 
-  <section class="hero">
-    <h1>Discover the World Differently</h1>
-    <p>Search any country or region to explore its climate, wildlife, and population insights — all on an interactive global map.</p>
+  <!-- <section class="hero">
+    <h1>Start Your Journey: Explore Countries and Continents</h1>
+    <p>
+  Type the name of any country or one of the seven continents — 
+  <strong>Africa</strong>, <strong>Antarctica</strong>, <strong>Asia</strong>, 
+  <strong>Europe</strong>, <strong>North America</strong>, 
+  <strong>South America</strong>, or <strong>Oceania</strong> — 
+  to explore its climate, wildlife, and population on an interactive global map.
+</p>
     <div class="search-container">
       <input id="searchInput" placeholder="🔍 Search for a country or region..." />
       <button id="searchBtn">Go</button>
     </div>
-  </section>
+
+  </section> -->
+
+<section class="hero">
+  <div class="hero-left">
+    <h1>Start Your Journey: Explore Countries and Continents</h1>
+    <p>
+      Type the name of any country or one of the seven continents — 
+      <strong>Africa</strong>, <strong>Asia</strong>, 
+      <strong>Europe</strong>, <strong>North America</strong>, 
+      <strong>South America</strong>, or <strong>Oceania</strong> — 
+      to explore its climate, wildlife, and population on an interactive global map.
+    </p>
+  </div>
+
+  <div class="hero-right">
+    <div class="search-container">
+      <input id="searchInput" placeholder="🔍 Search for a country or region..." />
+      <button id="searchBtn" disabled>Go</button>
+    </div>
+    <p id="searchFeedback" class="search-feedback"></p>
+  </div>
+</section>
+
+
  <section class="map-preview">
     <div id="map"></div>
     <div class="fade-overlay"></div>
@@ -49,5 +79,6 @@
  <script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="/js/index.js"></script>
+  
 </body>
 </html>

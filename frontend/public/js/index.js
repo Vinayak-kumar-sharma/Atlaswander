@@ -1,14 +1,46 @@
 document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("searchBtn").addEventListener("click", () => {
-      const query = document.getElementById("searchInput").value.trim();
-      if (!query) return alert("Please enter a name.");
-      const regionList = ["asia", "africa", "europe", "oceania", "americas"];
-      if (regionList.includes(query.toLowerCase())) {
-        window.location.href = `/api/region?name=${encodeURIComponent(query)}`;
-      } else {
-        window.location.href = `/api/country/${encodeURIComponent(query)}`;
-      }
-    });
+    // document.getElementById("searchBtn").addEventListener("click", () => {
+    //   const query = document.getElementById("searchInput").value.trim();
+    //   if (!query) return alert("Please enter a name.");
+    //   const regionList = ["asia", "africa", "europe", "oceania", "americas"];
+    //   if (regionList.includes(query.toLowerCase())) {
+    //     window.location.href = `/api/region?name=${encodeURIComponent(query)}`;
+    //   } else {
+    //     window.location.href = `/api/country/${encodeURIComponent(query)}`;
+    //   }
+    // });
+  const searchInput = document.getElementById("searchInput");
+  const searchBtn = document.getElementById("searchBtn");
+  const feedback = document.getElementById("searchFeedback");
+
+  const regionList = ["africa", "asia", "europe", "north america", "south america", "oceania"];
+
+  searchInput.addEventListener("input", () => {
+    const value = searchInput.value.trim();
+    searchBtn.disabled = value.length === 0;
+    feedback.textContent = ""; 
+  });
+
+  searchBtn.addEventListener("click", () => {
+    const query = searchInput.value.trim();
+    const queryLower = query.toLowerCase();
+
+    if (!query) {
+      feedback.textContent = "⚠️ Please enter a country or continent name.";
+      return;
+    }
+
+    // Show feedback (optional)
+    feedback.textContent = "🔄 Redirecting...";
+
+    // Check if it's a continent
+    if (regionList.includes(queryLower)) {
+      window.location.href = `/api/region?name=${encodeURIComponent(query)}`;
+    } else {
+      window.location.href = `/api/country/${encodeURIComponent(query)}`;
+    }
+  });
+    
     // Initialize Leaflet map
     const map = L.map('map', {
       center: [20, 0],
@@ -22,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    let lastClickedCountry = null;
+    // let lastClickedCountry = null;
     let activeMarker = null;
 
     map.on('click', async function (e) {
