@@ -1,10 +1,11 @@
 import { fetchJSON } from "../utils/fetchdata.js";
 
-export const getRegionInfo = async(req,res)=>{
+export const getRegionInfo = async(req,res,next)=>{
   try {
     const region = req.query.name
     if(!region){
-      return res.status(400).json({error:"Region name is required"})
+      return res.status(400).render("tutorial", {
+        message: "No matching continent or region found. Please check the name and try again."})
     }
       const countries = await fetchJSON(`https://restcountries.com/v3.1/region/${region}`);
       const coords = countries.map(c => c.latlng).filter(Boolean);
@@ -37,7 +38,8 @@ res.render('region',{
       totalPopulation:  formatter.format(totalPop),
 })
   } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500)
+      next(error)
   }
 }
 

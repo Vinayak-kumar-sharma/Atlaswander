@@ -12,14 +12,14 @@
   <!-- Header -->
 <header>
     <h1>🗺️ Atlas Wander</h1>
-    <p>Explore the unseen: From climates to creatures to cultures.</p>
+    <!-- <p>Explore the unseen: From climates to creatures to cultures.</p> -->
     <div class="site-brand">
     <a href="/" class="home-link">Back to Home</a>
     </div>
 </header>
 
   <!-- Hero -->
-  <section class="hero">
+  <!-- <section class="hero">
     <h1><%= name %></h1>
     <img src="<%= flag %>" alt="<%= name %> Flag" class="flag" />
     <div class="facts">
@@ -28,9 +28,39 @@
       <p><strong>Population:</strong> <%= population.toLocaleString() %></p>
       <p><strong>Languages:</strong> <%= languages.join(", ") %></p>
       <p><strong>Currencies:</strong> <%= currencies.join(", ") %></p>
+      <p><strong>Boders:</strong> <%= borders.join(", ") %></p>
       <p><strong>UN Member:</strong> <%= un_member ? "Yes" : "No" %></p>
     </div>
-  </section>
+  </section> -->
+
+
+  <section class="hero">
+  <div class="hero-content">
+    <!-- Flag section -->
+    <div class="flag-container">
+      <img src="<%= flag %>" alt="<%= name %> Flag" class="flag" id="flagImage" />
+    </div>
+
+    <!-- Text content -->
+    <div class="facts">
+      <h1><%= name.toUpperCase() %></h1>
+      <p><strong>Capital:</strong> <%= capital %></p>
+      <p><strong>Region:</strong> <%= region %> – <%= subregion %></p>
+      <p><strong>Population:</strong> <%= population.toLocaleString() %></p>
+      <p><strong>Languages:</strong> <%= languages.join(", ") %></p>
+      <p><strong>Currencies:</strong> <%= currencies.join(", ") %></p>
+      <p><strong>Borders:</strong> <%= borders.join(", ") %></p>
+      <p><strong>UN Member:</strong> <%= un_member ? "Yes" : "No" %></p>
+    </div>
+  </div>
+
+  <!-- Modal for the flag image -->
+  <div id="modal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modalImage" />
+  </div>
+</section>
+
 
   <!-- Map -->
   <section class="map-section">
@@ -109,6 +139,7 @@
   L.marker([lat, lon]).addTo(map)
     .bindPopup(`📍 ${countryName}`)
     .openPopup();
+
 
   async function fetchExtraInfo() {
     try {
@@ -242,6 +273,29 @@ function setupImageModal() {
   }
 
   fetchExtraInfo();
+
+  const modal = document.getElementById("modal");
+  const modalImage = document.getElementById("modalImage");
+  const flagImage = document.getElementById("flagImage");
+  const closeBtn = document.getElementsByClassName("close")[0];
+
+  // Open modal when flag image is clicked
+  flagImage.onclick = function() {
+    modal.style.display = "block";
+    modalImage.src = this.src;
+  };
+
+  // Close modal when the close button is clicked
+  closeBtn.onclick = function() {
+    modal.style.display = "none";
+  };
+
+  // Also close modal if user clicks outside the image
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  };
 </script>
 
   

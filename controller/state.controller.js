@@ -42,7 +42,7 @@ export const getStatesByCountry = (req, res) => {
 };
 
 
-export const getCitiesByState = (req, res) => {
+export const getCitiesByState = (req, res, next) => {
   try {
     const { countryCode, stateCode } = req.params;
 
@@ -57,9 +57,9 @@ export const getCitiesByState = (req, res) => {
       s => s.isoCode.toUpperCase() === state
     );
 
-    if (!cities.length) {
-      return res.status(404).json({ error: "No cities found for this state." });
-    }
+    // if (!cities.length) {
+    //   return res.status(404).json({ error: "No cities found for this state." });
+    // }
 
     if (!stateInfo) {
       return res.status(404).json({ error: "State not found in the country." });
@@ -93,6 +93,7 @@ export const getCitiesByState = (req, res) => {
 
 
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500)
+    next(error)
   }
 };

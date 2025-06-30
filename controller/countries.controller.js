@@ -1,10 +1,12 @@
 import { fetchJSON } from "../utils/fetchdata.js";
 
-export const getCountrywisepopulation = async(req,res)=>{
+export const getCountrywisepopulation = async(req,res,next)=>{
   try {
     const { name } = req.params
     if (!name) {
-      return res.status(400).json({ error: "Country name is required" })
+      // return res.status(400).json({ error: "Country name is required" })
+      return res.status(404).render("tutorial", {
+        message: "No matching country found. Please check the name and try again."})
     }
     const [data] = await fetchJSON(`https://restcountries.com/v3.1/name/${name}?fullText=true`);
 
@@ -33,6 +35,7 @@ export const getCountrywisepopulation = async(req,res)=>{
 });
 
   } catch (error) {
-    res.status(500).json({error: error.message})
+    res.status(500)
+    next(error)
   }
 }

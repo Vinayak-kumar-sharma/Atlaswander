@@ -41,9 +41,18 @@ app.use("/api", countriesRoute);
 
 // --------- Page Routes ---------
 app.get("/", (req, res) => {
-  res.render("index", { title: "Atlas360 – Wander" });
+  res.render("index", { title: "Atlas Wander" });
 });
 
+// Error handling 500,404
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).render("tutorial");
+});
+
+app.use((req, res) => {
+  res.status(404).render("tutorial");
+});
 app.listen(PORT, () => {
   console.log(`Server running: http://localhost:${PORT}`);
 });
