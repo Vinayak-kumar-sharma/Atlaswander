@@ -1,53 +1,79 @@
-# AtlasWander: A Continents Data 
+# 🌍 AtlasWander — Learn API Integration with World Data
 
-AtlasWander is a Node.js and Express-based web application designed to provide essential information about continents and countries. While it draws inspiration from traditional atlases, AtlasWander focuses on delivering key data points such as climate, population, currency, regions, wildlife, languages, flags, and maps in a straightforward manner.
+**AtlasWander** is a full-stack web application that mimics the essence of an atlas. It aggregates real-time country, climate, and biodiversity data using external APIs and displays them interactively using maps and markers.
 
-## Features
+> ⚡ This project was built as a personal learning tool to explore API integration, backend structuring, and dynamic rendering using EJS templates.
 
-- **Country Information**: Access basic data about countries, including population and climate.
-- **Climate Data**: Retrieve climate information for specific countries.
-- **Population Statistics**: Get population data and capital cities based on regions.
-- **Regional Information**: Explore data specific to different regions.
-- **Wildlife Data**: (Optional for future implementation) Information on flora and fauna for specific countries.
-- **RESTful API**: Clean and organized API endpoints for easy integration and use.
-- **User-Friendly Frontend**: Built with HTML, CSS, JavaScript, and EJS for a dynamic and responsive user experience.
+---
 
-## API Endpoints
+## 📌 Key Features
 
-The following REST API endpoints are available:
+- 🌐 **Country Explorer** — Fetch and view detailed info about any country
+- ☁️ **Live Weather & Forecast** — Real-time weather via OpenWeatherMap + 7-day forecast via Open-Meteo
+- 🌿 **Biodiversity Insights** — Explore flora and fauna using GBIF API
+- 🗺️ **Interactive Map** — View country/state locations using Leaflet.js + OpenStreetMap
+- 🌍 **Region & Population Stats** — Region-specific demographics and metadata
+- 🧭 **State Locator** — State-level coordinates with map markers
 
-- **Get Country Info**
-  - `GET /api/countries/:name`
-  - Description: Retrieve basic information about a specific country by name.
+---
 
-- **Get Climate Data**
-  - `GET /api/climate?country=...`
-  - Description: Fetch climate data for a specified country.
+## 🚀 Tech Stack
 
-- **Get Population Data**
-  - `GET /api/population?region=...`
-  - Description: Obtain population statistics and capital cities for a specified region.
+### Frontend
+- **EJS** – Templating engine for dynamic pages
+- **HTML/CSS/JavaScript**
+- **Leaflet.js** – For map rendering
+- **Responsive Design** – Mobile-first with media queries
 
-- **Get Regional Information**
-  - `GET /api/region?name=...`
-  - Description: Access information specific to a particular region.
+### Backend
+- **Node.js + Express**
+- **Axios** – To fetch external API data
+- **MVC Structure** – Organized using controllers, routes, and utils
 
-- **Get Wildlife Data** (Optional for later)
-  - `GET /api/wildlife?country=...`
-  - Description: Retrieve information on the flora and fauna of a specified country.
+---
 
-## Frontend Technologies
+## 🧩 APIs Used
 
-AtlasWander utilizes the following technologies for the frontend:
+| API | Purpose | Link |
+|-----|---------|------|
+| RESTCountries | Country data | [restcountries.com](https://restcountries.com/) |
+| OpenWeatherMap | Live weather | [openweathermap.org](https://openweathermap.org/) |
+| Open-Meteo | 7-day forecast | [open-meteo.com](https://open-meteo.com/) |
+| OpenStreetMap | Map tiles | [openstreetmap.org](https://www.openstreetmap.org/) |
+| GBIF | Biodiversity data | [gbif.org](https://www.gbif.org/) |
 
-- **HTML**: For structuring the web pages.
-- **CSS**: For styling and layout.
-- **JavaScript**: For interactivity and dynamic content.
-- **EJS (Embedded JavaScript)**: For rendering dynamic content on the server side.
+> 🔐 Some APIs (like OpenWeatherMap) require you to generate and use your own free API key.
 
-## Getting Started
+---
 
-### Prerequisites
+## ⚙️ Getting Started
 
-- Node.js (version X.X.X or higher)
-- npm (Node package manager)
+### 1. Clone the project
+```bash
+git clone https://github.com/Vinayak-kumar-sharma/Atlaswander
+cd Atlaswander
+```
+### 2. Install dependencies
+```bash
+npm install
+```
+### 3. Set up environment variables
+```
+OPENWEATHER_API_KEY=your_api_key
+PORT=port_number
+```
+### 4. Run the app locally
+```bash
+npm run dev
+```
+
+### Deployment
+- The project is live at | [Visit](https://atlaswander.up.railway.app/)
+- Hosted on | [Railway](https://railway.com/)
+
+## 📃 License
+- This project is for educational purposes only. Attribution to data providers is included. Not intended for commercial use.
+
+## 🙌 Credits & Attribution
+- Inspired by the classic atlas book experience.
+- Built using open datasets and free API services (see above)
