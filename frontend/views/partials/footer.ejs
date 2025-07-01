@@ -1,3 +1,88 @@
-<footer>
+<!-- <footer>
     <p>&copy; <%= new Date().getFullYear() %> Atlas Wander — A Map for the Curious Mind.</p>
-  </footer>
+  </footer> -->
+<style>
+  .footer-attribution {
+  background-color: #12121c;
+  color: #d0d0dd;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  padding: 3rem 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.footer-wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.footer-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-text {
+  margin: 0;
+  line-height: 1.75;
+  font-size: 0.95rem;
+}
+
+.footer-attribution a {
+  color: #9bfeaf;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-attribution a:hover {
+  color: #dcd6fa;
+  text-decoration: underline;
+}
+
+/* Responsive layout for larger screens */
+@media (min-width: 768px) {
+  .footer-wrapper {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .footer-section {
+    align-items: flex-start;
+  }
+}
+
+</style>
+
+<footer class="footer-attribution">
+  <div class="footer-wrapper">
+    <div class="footer-section footer-project">
+      <p class="footer-text">
+        View this project on 
+        <a href="https://github.com/Vinayak-kumar-sharma/Atlaswander" target="_blank" rel="noopener">
+          GitHub
+        </a>.
+      </p>
+    </div>
+
+    <div class="footer-section footer-sources">
+      <p class="footer-text">
+        Data provided by:
+        <a href="https://restcountries.com/" target="_blank" rel="noopener">RESTCountries</a>,
+        <a href="https://www.openstreetmap.org/" target="_blank" rel="noopener">OpenStreetMap</a>,
+        <a href="https://openweathermap.org/" target="_blank" rel="noopener">OpenWeatherMap</a>,
+        <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>,
+        and
+        <a href="https://www.gbif.org/" target="_blank" rel="noopener">GBIF</a>.
+      </p>
+    </div>
+  </div>
+</footer>
+
+
+

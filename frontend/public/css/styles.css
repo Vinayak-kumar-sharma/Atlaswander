@@ -26,12 +26,14 @@
     color: var(--text);
   }
 
-  header,
-  footer {
+  header {
     padding: 1rem 2rem;
     text-align: center;
     background-color: #1e293b;
   }
+
+
+
 
   /* .hero {
     height: 60vh;
