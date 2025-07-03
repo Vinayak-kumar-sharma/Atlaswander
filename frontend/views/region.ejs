@@ -2,8 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title><%= region.charAt(0).toUpperCase() + region.slice(1)  %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Page Title -->
+  <title><%= region.charAt(0).toUpperCase() + region.slice(1) %> | AtlasWander</title>
+
+  <!-- SEO Meta Description -->
+  <meta name="description" content="Explore detailed information about the <%= region.charAt(0).toUpperCase() + region.slice(1) %> region including population, countries, geography, and more on AtlasWander." />
+  <meta name="keywords" content="<%= region.charAt(0).toUpperCase() + region.slice(1) %> region, continents, regional data, geography, population, AtlasWander, countries in <%= region.charAt(0).toUpperCase() + region.slice(1) %>" />
+  <meta name="author" content="Vinayak Kumar Sharma" />
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://atlaswander.up.railway.app/api/region?name=<%= region.charAt(0).toUpperCase() + region.slice(1) %>" />
+
+  <!-- Open Graph (for Facebook & others) -->
+  <meta property="og:title" content="<%= region.charAt(0).toUpperCase() + region.slice(1) %> | AtlasWander" />
+  <meta property="og:description" content="Learn about countries, population, geography, and other facts in the <%= region.charAt(0).toUpperCase() + region.slice(1) %> region with AtlasWander." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://atlaswander.up.railway.app/region/<%= region.charAt(0).toUpperCase() + region.slice(1) %>" />
+  <meta property="og:image" content="/images/regions/<%= region.charAt(0).toUpperCase() + region.slice(1) %>-map.png" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="<%= region.charAt(0).toUpperCase() + region.slice(1) %> | AtlasWander" />
+  <meta name="twitter:description" content="Explore population, countries, and map of <%= region.charAt(0).toUpperCase() + region.slice(1) %> region on AtlasWander." />
+  <meta name="twitter:image" content="/images/regions/<%= region.charAt(0).toUpperCase() + region.slice(1) %>-map.png" />
+
+
   <link rel="stylesheet" href="/css/region.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 </head>
@@ -11,7 +36,6 @@
 
 <header>
     <h1>🗺️ Atlas Wander</h1>
-    <p>Explore the unseen: From climates to creatures to cultures.</p>
     <div class="site-brand">
     <a href="/" class="home-link">Back to Home</a>
     </div>

@@ -2,8 +2,28 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title><%= name %> – Country Details</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= name %> | AtlasWander</title>
+  <meta name="description" content="Explore detailed data about <%= name %>, including its capital city, population, region, languages, weather, biodiversity, and more." />
+  <meta name="keywords" content="<%= name %>, country data, <%= region %>, atlas, population, climate, map, biodiversity" />
+  <meta name="author" content="Vinayak Kumar Sharma" />
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://atlaswander.up.railway.app" />
+
+  <!-- Open Graph (for social sharing) -->
+  <meta property="og:title" content="<%= name %> | AtlasWander" />
+  <meta property="og:description" content="Learn key facts about <%= name %> including maps, weather, biodiversity, and more." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://atlaswander.up.railway.app" />
+  <meta property="og:image" content="/images/previews/<%= name.toLowerCase() %>-flag.png" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="<%= name %> | AtlasWander" />
+  <meta name="twitter:description" content="maps,climate, geography, and biodiversity of <%= name %>." />
+  <meta name="twitter:image" content="/images/previews/<%= name.toLowerCase() %>-flag.png" />
+
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <link rel="stylesheet" href="/css/country.css">
 </head>
@@ -248,9 +268,9 @@ const statesRes = await fetch(`/api/states/${countryCode}`);
     } catch (err) {
       console.error(err);
       document.getElementById("climateInfo").textContent = "Error loading climate.";
-      document.getElementById("wildlifeInfo").textContent = "Error loading wildlife.";
+      document.getElementById("wildlifeInfo").textContent = "soon we add data of biodiversity .";
       const statesCount = document.getElementById("totalStates");
-      if (statesCount) statesCount.textContent = "Error loading states.";
+      if (statesCount) statesCount.textContent = "soon we add data of states.";
     }
   }
 

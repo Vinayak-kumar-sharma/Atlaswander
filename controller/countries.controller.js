@@ -28,8 +28,8 @@ export const getCountrywisepopulation = async(req,res,next)=>{
     lat: data.latlng?.[0] || null,
     lon: data.latlng?.[1] || null
   },
-  borders: data.borders || [],
-  timezones: data.timezones || [],
+  borders: data.borders || ["null"],
+  // timezones: data.timezones || [],
   un_member: data.unMember || false,
   countryCode: data.cca2 || data.cca3 || "", 
 });
