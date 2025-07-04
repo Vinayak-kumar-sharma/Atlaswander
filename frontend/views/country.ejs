@@ -7,17 +7,14 @@
   <meta name="description" content="Explore detailed data about <%= name %>, including its capital city, population, region, languages, weather, biodiversity, and more." />
   <meta name="keywords" content="<%= name %>, country data, <%= region %>, atlas, population, climate, map, biodiversity" />
   <meta name="author" content="Vinayak Kumar Sharma" />
-
   <!-- Canonical URL -->
   <link rel="canonical" href="https://atlaswander.up.railway.app" />
-
   <!-- Open Graph (for social sharing) -->
   <meta property="og:title" content="<%= name %> | AtlasWander" />
   <meta property="og:description" content="Learn key facts about <%= name %> including maps, weather, biodiversity, and more." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://atlaswander.up.railway.app" />
   <meta property="og:image" content="/img/round-icons-UEz0Y7Ls-Rc-unsplash.png" />
-
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="<%= name %> | AtlasWander" />
@@ -28,31 +25,12 @@
   <link rel="stylesheet" href="/css/country.css">
 </head>
 <body>
-
-  <!-- Header -->
 <header>
     <h1>🗺️ Atlas Wander</h1>
-    <!-- <p>Explore the unseen: From climates to creatures to cultures.</p> -->
     <div class="site-brand">
     <a href="/" class="home-link">Back to Home</a>
     </div>
 </header>
-
-  <!-- Hero -->
-  <!-- <section class="hero">
-    <h1><%= name %></h1>
-    <img src="<%= flag %>" alt="<%= name %> Flag" class="flag" />
-    <div class="facts">
-      <p><strong>Capital:</strong> <%= capital %></p>
-      <p><strong>Region:</strong> <%= region %> – <%= subregion %></p>
-      <p><strong>Population:</strong> <%= population.toLocaleString() %></p>
-      <p><strong>Languages:</strong> <%= languages.join(", ") %></p>
-      <p><strong>Currencies:</strong> <%= currencies.join(", ") %></p>
-      <p><strong>Boders:</strong> <%= borders.join(", ") %></p>
-      <p><strong>UN Member:</strong> <%= un_member ? "Yes" : "No" %></p>
-    </div>
-  </section> -->
-
 
   <section class="hero">
   <div class="hero-content">
@@ -60,8 +38,6 @@
     <div class="flag-container">
       <img src="<%= flag %>" alt="<%= name %> Flag" class="flag" id="flagImage" />
     </div>
-
-    <!-- Text content -->
     <div class="facts">
       <h1><%= name.toUpperCase() %></h1>
       <p><strong>Capital:</strong> <%= capital %></p>
@@ -80,14 +56,11 @@
     <img class="modal-content" id="modalImage" />
   </div>
 </section>
-
-
   <!-- Map -->
   <section class="map-section">
     <h2>🗺 Interactive Map</h2>
     <div id="dynamicMap"></div>
   </section>
-
   <!-- Map Links -->
   <section class="map-links">
     <h3>🔗 Explore on External Maps</h3>
@@ -97,7 +70,6 @@
       <li><a href="https://earth.google.com/web/search/<%= name %>" target="_blank">Google Earth</a></li>
     </ul>
   </section>
-
   <!-- Info Cards -->
 <section class="climate-section">
   <h2>🌤 Climate Overview</h2>
@@ -108,7 +80,6 @@
     Loading climate data...
   </div>
 </section>
-
 <!-- Population Section -->
 <section class="population-section">
   <h2>👥 Population Snapshot</h2>
@@ -117,10 +88,8 @@
       <h3>Total Population</h3>
       <p><%= population.toLocaleString() %></p>
     </div>
-    <!-- Future additions: growth, density, etc. -->
   </div>
 </section>
-
 <!-- States Section -->
 <section class="states-section">
   <h2>🏛 States </h2>
@@ -129,21 +98,14 @@
     <!-- JavaScript will populate this -->
   </div>
 </section>
-
-
-<!-- Wildlife Section -->
+<!-- Biodiversity Section -->
 <section class="wildlife-section">
-  <h2>🦁 Wildlife</h2>
+  <h2>🦁 Biodiversity</h2>
   <div class="wildlife-grid" id="wildlifeInfo">
     Loading wildlife data...
   </div>
 </section>
-
-
-  <!-- Footer -->
   <%- include('partials/footer') %>
-
-  <!-- Scripts -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
   const lat = <%= coordinates.lat %>;
@@ -317,8 +279,6 @@ function setupImageModal() {
     }
   };
 </script>
-
-  
   <div id="imageModal" class="image-modal">
   <span class="close">&times;</span>
   <img class="modal-content" id="modalImg" />

@@ -1,14 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // document.getElementById("searchBtn").addEventListener("click", () => {
-    //   const query = document.getElementById("searchInput").value.trim();
-    //   if (!query) return alert("Please enter a name.");
-    //   const regionList = ["asia", "africa", "europe", "oceania", "americas"];
-    //   if (regionList.includes(query.toLowerCase())) {
-    //     window.location.href = `/api/region?name=${encodeURIComponent(query)}`;
-    //   } else {
-    //     window.location.href = `/api/country/${encodeURIComponent(query)}`;
-    //   }
-    // });
   const searchInput = document.getElementById("searchInput");
   const searchBtn = document.getElementById("searchBtn");
   const feedback = document.getElementById("searchFeedback");
